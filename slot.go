@@ -20,7 +20,7 @@ func NewSlot(options []string) *Slot {
 func (slot *Slot) Choose() string {
 
 	// Edge case - have we excluded the whole slot?
-	if len(slot.options) == len(slot.exclude) {
+	if len(slot.exclude) >= len(slot.options) {
 		return "no valid options"
 	}
 
