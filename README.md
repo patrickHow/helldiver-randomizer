@@ -10,33 +10,38 @@ Go: https://go.dev/
 Once go is installed, build the package using `go install`
 
 ## Running 
-To run the basic program, use `helldiver-randomizer` with no arguments. This should print a randomized loadout for you with one of each:
-Orbital Strike
-Eagle Strike 
-Support Weapon
-Utility Item (mines, turrets, emplacements)
-Primary Weapon
-Secondary Weapon
-Grenade 
+To run the basic program, use `helldiver-randomizer` with no arguments. This should print a randomized loadout for you that looks something like this:
+
+```
+> helldiver-randomizer
+Orbital: smoke
+Eagle: napalm
+Weapon: eat
+Utility: autocannon sentry
+Primary: spray and pray
+Secondary: senator
+Grenade: impact
+```
+
 
 ## Options
 To list all available options, run `helldiver-randomizer -h` 
 
-# Example Usage
+# Detailed Usage
 ## No Arguments
-With no arguments, the program will print an entire random loadout
+With no arguments, the program will print an entire random loadout as seen above.
 
 ## Rolling Specific Slots 
 There are two ways to roll specific slots.
 
-You can specify slots to roll with the flags (just type the first letter):
--o(rbital)
--e(agle)
--w(eapon)
--u(til)
--p(rimary)
--s(econdary)
--g(renade)
+You can specify slots to roll with the flags (just type the first letter):  
+-o(rbital)  
+-e(agle)  
+-w(eapon)  
+-u(til)  
+-p(rimary)  
+-s(econdary)  
+-g(renade)  
 
 For exmple, `helldiver-randomizer -o -s` will output someting like:
 ```
