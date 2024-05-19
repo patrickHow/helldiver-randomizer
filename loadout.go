@@ -60,6 +60,8 @@ func (l *Loadout) RollMultipleSlots(args *string) {
 			fmt.Println("Secondary:", l.Secondary.Choose())
 		case 'g':
 			fmt.Println("Grenade:", l.Grenade.Choose())
+		default:
+			fmt.Println("Invalid slot option:", string(arg))
 		}
 	}
 }
