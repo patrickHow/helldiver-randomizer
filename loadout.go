@@ -43,23 +43,39 @@ func (l *Loadout) ParseAndPrintInfo(args *string) {
 	}
 }
 
+// Once an option is chosen, add it to the exclude list
+// This allows flags such as `-r="-ooew"` to not produce duplicates
 func (l *Loadout) RollMultipleSlots(args *string) {
 	for _, arg := range *args {
 		switch arg {
 		case 'o':
-			fmt.Println("Orbital:", l.Orbital.Choose())
+			option := l.Orbital.Choose()
+			fmt.Println("Orbital:", option)
+			l.Orbital.exclude[option] = true
 		case 'e':
-			fmt.Println("Eagle:", l.Eagle.Choose())
+			option := l.Eagle.Choose()
+			fmt.Println("Eagle:", option)
+			l.Eagle.exclude[option] = true
 		case 'w':
-			fmt.Println("Weapon:", l.Weapon.Choose())
+			option := l.Weapon.Choose()
+			fmt.Println("Weapon:", option)
+			l.Weapon.exclude[option] = true
 		case 'u':
-			fmt.Println("Utility:", l.Utility.Choose())
+			option := l.Utility.Choose()
+			fmt.Println("Utility:", option)
+			l.Utility.exclude[option] = true
 		case 'p':
-			fmt.Println("Primary:", l.Primary.Choose())
+			option := l.Primary.Choose()
+			fmt.Println("Primary:", option)
+			l.Primary.exclude[option] = true
 		case 's':
-			fmt.Println("Secondary:", l.Secondary.Choose())
+			option := l.Secondary.Choose()
+			fmt.Println("Secondary:", option)
+			l.Secondary.exclude[option] = true
 		case 'g':
-			fmt.Println("Grenade:", l.Grenade.Choose())
+			option := l.Grenade.Choose()
+			fmt.Println("Grenade:", option)
+			l.Grenade.exclude[option] = true
 		default:
 			fmt.Println("Invalid slot option:", string(arg))
 		}

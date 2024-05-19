@@ -60,6 +60,11 @@ Secondary: peacemaker
 Grenade: incendiary
 ```
 
+The `-r` flag can be used to specify custom loadout sets. For example:  
+- Roll only stratagems with `-r=oweu`
+- Roll only a loadout with `-r=psg`
+- Roll strategems with a duplicate slot (such as two eagles) with `-oeew` (this will automatically prevent duplicates)
+
 ## Listing Options for a Slot
 The `-i` flag can be used to list all the options for one or more slots. 
 For example `-i=oe` will print all the options for the orbital and eagle slots.
