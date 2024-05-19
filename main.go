@@ -40,6 +40,11 @@ func main() {
 	var xGrenade ExcludeFlag
 	flag.Var(&xGrenade, "xg", "Exclude these grenades")
 
+	// Flags related to profile
+	loadProfile := flag.String("profile", "", "Specify the profile to use, create, edit, or view")
+	var profSwitch ProfileSwitch
+	flag.Var(&profSwitch, "um", "Set the usage mode for the specified profile")
+
 	flag.Parse()
 
 	// Set up slot variables
@@ -63,6 +68,7 @@ func main() {
 
 	// If no args, print everything
 	if flag.NFlag() == 0 {
+		fmt.Println("No flags set, choosing entire loadout")
 		loadout.ChooseAll()
 
 	} else {
@@ -72,33 +78,96 @@ func main() {
 		// where we just get exclude lists and we want to roll everything
 		rolled := false
 
-		// Parse exclude lists first
+		// If this flag is true, parsing exclude lists will also update the current profile
+		modifyProfile := false
+
+		// Load profile if one is specified
+		profile := NewProfile()
+
+		if *loadProfile != "" {
+			// Profile not empty,
+			profile.SetName(*loadProfile)
+
+			switch profSwitch {
+			case "e": // Edit profile - overwrite specified settings based on other flags
+				modifyProfile = true
+				profile.ReadFromFile()
+				defer profile.WriteToFile()
+			case "d": // Delete profile - remove from the file system
+				profile.Delete()
+			case "c": // Create profile based on specified settings
+				modifyProfile = true
+				profile.DefaultRoll = "oeuwpsg" // Default to rolling everything unless overwritten below
+				defer profile.WriteToFile()
+			case "i": // Print info on the profile, but take no action based on it
+				rolled = true
+				profile.ReadFromFile()
+				profile.Describe()
+			case "u": // Use this profile for the roll - default option
+				profile.ReadFromFile()
+				loadout.PopulateExcludeListsFromProfile(profile)
+				if *rollMulti == "" {
+					// If this command wasn't specified, replace it with the default
+					*rollMulti = profile.DefaultRoll
+				}
+			}
+		}
+
+		// Parse exclude lists
 		if len(xOrbital) > 0 {
 			orbitalSlot.ParseExcludeFromFlag(xOrbital)
+
+			if modifyProfile {
+				profile.XOrbital = orbitalSlot.GetExcludeStringList()
+			}
 		}
 
 		if len(xEagle) > 0 {
 			eagleSlot.ParseExcludeFromFlag(xEagle)
+
+			if modifyProfile {
+				profile.XEagle = eagleSlot.GetExcludeStringList()
+			}
 		}
 
 		if len(xWeapon) > 0 {
 			weaponSlot.ParseExcludeFromFlag(xWeapon)
+
+			if modifyProfile {
+				profile.XWeapon = weaponSlot.GetExcludeStringList()
+			}
 		}
 
 		if len(xUtil) > 0 {
 			utilitySlot.ParseExcludeFromFlag(xUtil)
+
+			if modifyProfile {
+				profile.XUtil = utilitySlot.GetExcludeStringList()
+			}
 		}
 
 		if len(xPrimary) > 0 {
 			primarySlot.ParseExcludeFromFlag(xPrimary)
+
+			if modifyProfile {
+				profile.XPrimary = primarySlot.GetExcludeStringList()
+			}
 		}
 
 		if len(xSecondary) > 0 {
 			secondarySlot.ParseExcludeFromFlag(xSecondary)
+
+			if modifyProfile {
+				profile.XSecondary = secondarySlot.GetExcludeStringList()
+			}
 		}
 
 		if len(xGrenade) > 0 {
 			grenadeSlot.ParseExcludeFromFlag(xGrenade)
+
+			if modifyProfile {
+				profile.XGrenade = grenadeSlot.GetExcludeStringList()
+			}
 		}
 
 		if *slotInfo != "" {
@@ -110,6 +179,10 @@ func main() {
 		if *rollMulti != "" {
 			rolled = true
 			loadout.RollMultipleSlots(rollMulti)
+
+			if modifyProfile {
+				profile.DefaultRoll = *rollMulti
+			}
 		}
 
 		if *orbital {

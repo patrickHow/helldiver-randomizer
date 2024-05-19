@@ -59,19 +59,19 @@ var UtilityList = []string{
 	"autocannon sentry",
 	"hmg emplacement",
 	"ap mines",
-	"incindiary mines",
+	"incendiary mines",
 	"tesla tower",
 	"shield generator relay",
 }
 
 var PrimaryList = []string{
-	"liberator",
+	"liberator base",
 	"liberator penetrator",
 	"liberator concussive",
 	"tenderizer",
 	"adjudicator",
 
-	"diligence",
+	"diligence base",
 	"diligence counter sniper",
 
 	"defender smg",
