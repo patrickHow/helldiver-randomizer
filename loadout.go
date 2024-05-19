@@ -83,11 +83,11 @@ func (l *Loadout) RollMultipleSlots(args *string) {
 }
 
 func (l *Loadout) PopulateExcludeListsFromProfile(prof *Profile) {
-	l.Orbital.ParseExcludeFromFlag(prof.XOrbital)
-	l.Eagle.ParseExcludeFromFlag(prof.XEagle)
-	l.Utility.ParseExcludeFromFlag(prof.XUtil)
-	l.Weapon.ParseExcludeFromFlag(prof.XWeapon)
-	l.Primary.ParseExcludeFromFlag(prof.XPrimary)
-	l.Secondary.ParseExcludeFromFlag(prof.XSecondary)
-	l.Grenade.ParseExcludeFromFlag(prof.XGrenade)
+	l.Orbital.ParseExcludeFromSlice(prof.XOrbital)
+	l.Eagle.ParseExcludeFromSlice(prof.XEagle)
+	l.Utility.ParseExcludeFromSlice(prof.XUtil)
+	l.Weapon.ParseExcludeFromSlice(prof.XWeapon)
+	l.Primary.ParseExcludeFromSlice(prof.XPrimary)
+	l.Secondary.ParseExcludeFromSlice(prof.XSecondary)
+	l.Grenade.ParseExcludeFromSlice(prof.XGrenade)
 }

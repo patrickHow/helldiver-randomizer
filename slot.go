@@ -42,7 +42,7 @@ func (slot *Slot) Choose() string {
 // This function takes a list that can be a mix of strings and integers
 // Integers should correspond to an index to exclude
 // Strings will be fuzzy-matched against the list
-func (slot *Slot) ParseExcludeFromFlag(exl []string) {
+func (slot *Slot) ParseExcludeFromSlice(exl []string) {
 
 	for _, ex := range exl {
 		// Try to parse to an int

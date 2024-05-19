@@ -42,7 +42,7 @@ func main() {
 
 	// Flags related to profile
 	loadProfile := flag.String("profile", "", "Specify the profile to use, create, edit, or view")
-	var profSwitch ProfileSwitch
+	var profSwitch ProfileSwitch = "u"
 	flag.Var(&profSwitch, "um", "Set the usage mode for the specified profile")
 
 	flag.Parse()
@@ -115,7 +115,7 @@ func main() {
 
 		// Parse exclude lists
 		if len(xOrbital) > 0 {
-			orbitalSlot.ParseExcludeFromFlag(xOrbital)
+			orbitalSlot.ParseExcludeFromSlice(xOrbital)
 
 			if modifyProfile {
 				profile.XOrbital = orbitalSlot.GetExcludeStringList()
@@ -123,7 +123,7 @@ func main() {
 		}
 
 		if len(xEagle) > 0 {
-			eagleSlot.ParseExcludeFromFlag(xEagle)
+			eagleSlot.ParseExcludeFromSlice(xEagle)
 
 			if modifyProfile {
 				profile.XEagle = eagleSlot.GetExcludeStringList()
@@ -131,7 +131,7 @@ func main() {
 		}
 
 		if len(xWeapon) > 0 {
-			weaponSlot.ParseExcludeFromFlag(xWeapon)
+			weaponSlot.ParseExcludeFromSlice(xWeapon)
 
 			if modifyProfile {
 				profile.XWeapon = weaponSlot.GetExcludeStringList()
@@ -139,7 +139,7 @@ func main() {
 		}
 
 		if len(xUtil) > 0 {
-			utilitySlot.ParseExcludeFromFlag(xUtil)
+			utilitySlot.ParseExcludeFromSlice(xUtil)
 
 			if modifyProfile {
 				profile.XUtil = utilitySlot.GetExcludeStringList()
@@ -147,7 +147,7 @@ func main() {
 		}
 
 		if len(xPrimary) > 0 {
-			primarySlot.ParseExcludeFromFlag(xPrimary)
+			primarySlot.ParseExcludeFromSlice(xPrimary)
 
 			if modifyProfile {
 				profile.XPrimary = primarySlot.GetExcludeStringList()
@@ -155,7 +155,7 @@ func main() {
 		}
 
 		if len(xSecondary) > 0 {
-			secondarySlot.ParseExcludeFromFlag(xSecondary)
+			secondarySlot.ParseExcludeFromSlice(xSecondary)
 
 			if modifyProfile {
 				profile.XSecondary = secondarySlot.GetExcludeStringList()
@@ -163,7 +163,7 @@ func main() {
 		}
 
 		if len(xGrenade) > 0 {
-			grenadeSlot.ParseExcludeFromFlag(xGrenade)
+			grenadeSlot.ParseExcludeFromSlice(xGrenade)
 
 			if modifyProfile {
 				profile.XGrenade = grenadeSlot.GetExcludeStringList()
