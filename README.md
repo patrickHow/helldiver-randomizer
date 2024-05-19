@@ -43,11 +43,11 @@ You can specify slots to roll with the flags (just type the first letter):
 -s(econdary)  
 -g(renade)  
 
-For exmple, `helldiver-randomizer -o -s` will output someting like:
+For example, `helldiver-randomizer -o -s` will output someting like:
 ```
 > helldiver-randomizer -o -s
-Orbital: 370
-Secondary: Verdict
+Orbital: 380
+Secondary: verdict
 ```
 
 You can also specify a group of rolls with the `-r` flag, using the same letters as above.

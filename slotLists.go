@@ -46,7 +46,7 @@ var UtilityList = []string{
 	"shield gen",
 	"guard dog mg",
 	"guard dog laser",
-	"riot shield",
+	"ballistic shield",
 	"supply pack",
 	"jetpack",
 
@@ -81,9 +81,9 @@ var PrimaryList = []string{
 	"slugger",
 	"breaker",
 	"spray and pray",
-	"breaker incindiary",
+	"breaker incendiary",
 
-	"exploding crossbow",
+	"crossbow",
 	"eruptor",
 	"dominator",
 
