@@ -6,8 +6,8 @@ import (
 )
 
 type Slot struct {
-	options []string
-	exclude map[string]bool
+	options []string        // Possible options for this slot
+	exclude map[string]bool // List of options to exclude - runtime populated
 }
 
 func NewSlot(options []string) *Slot {
@@ -27,7 +27,8 @@ func (slot *Slot) Choose() string {
 	// Pick an entry for the slot
 	choice := slot.options[rand.Intn(len(slot.options))]
 
-	// Check that it's not in the exclude list - if it is, pick new entries
+	// Check that it's not in the exclude list
+	// If it is, pick new entires until we get a non-excluded one
 	for _, present := slot.exclude[choice]; present; {
 		choice = slot.options[rand.Intn(len(slot.options))]
 	}
