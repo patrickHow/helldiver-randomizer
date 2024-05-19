@@ -88,14 +88,16 @@ func (prof *Profile) FromString(data string) {
 	}
 }
 
-func (prof *Profile) ReadFromFile() {
+func (prof *Profile) ReadFromFile() bool {
 	raw, err := os.ReadFile(prof.Name + ".profile")
 
 	if err != nil {
 		fmt.Println("Could not open file:", err)
+		return false
 	} else {
 		prof.FromString(string(raw))
 		fmt.Println("Loaded profile:", prof.Name)
+		return true
 	}
 }
 

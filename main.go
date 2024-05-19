@@ -41,9 +41,9 @@ func main() {
 	flag.Var(&xGrenade, "xg", "Exclude these grenades")
 
 	// Flags related to profile
-	loadProfile := flag.String("profile", "", "Specify the profile to use, create, edit, or view")
-	var profSwitch ProfileSwitch = "u"
-	flag.Var(&profSwitch, "um", "Set the usage mode for the specified profile")
+	loadProfile := flag.String("profile", "", "Options for profile: u(se), c(reate), e(dit), i(nfo)")
+	var profSwitch ProfileSwitch
+	flag.Var(&profSwitch, "pm", "Set the usage mode for the specified profile")
 
 	flag.Parse()
 
@@ -88,13 +88,23 @@ func main() {
 			// Profile not empty,
 			profile.SetName(*loadProfile)
 
+			// Default to "use" option
+			if profSwitch == "" {
+				profSwitch = "u"
+			}
+
 			switch profSwitch {
 			case "e": // Edit profile - overwrite specified settings based on other flags
 				modifyProfile = true
-				profile.ReadFromFile()
+				if !profile.ReadFromFile() {
+					fmt.Println("Profile not found - please use create instead of edit for new profiles")
+					return
+				}
 				defer profile.WriteToFile()
 			case "d": // Delete profile - remove from the file system
 				profile.Delete()
+				fmt.Println("Profile deleted:", profile.Name)
+				return
 			case "c": // Create profile based on specified settings
 				modifyProfile = true
 				profile.DefaultRoll = "oeuwpsg" // Default to rolling everything unless overwritten below
