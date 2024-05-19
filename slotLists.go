@@ -43,7 +43,7 @@ var WeaponList = []string{
 }
 
 var UtilityList = []string{
-	"shield gen",
+	"shield backpack",
 	"guard dog mg",
 	"guard dog laser",
 	"ballistic shield",
@@ -66,7 +66,7 @@ var UtilityList = []string{
 
 var PrimaryList = []string{
 	"liberator",
-	"liberator pen",
+	"liberator penetrator",
 	"liberator concussive",
 	"tenderizer",
 	"adjudicator",

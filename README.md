@@ -89,6 +89,9 @@ For example `-i=oe` will print all the options for the orbital and eagle slots.
 The numbers returned are important - they indicate the numbers to use when you want to exclude certain entries from a slot roll.
 
 ## Excluding Options for a Slot
+
+Excluding certain options is useful if you want to exclude weapons you haven't unlocked, or you just dislike some item so much you don't event want to use it randomly. 
+
 Using the numbers provided by the `-i` option for a slot, you can specify a comma-separated, quoted list of integers to exclude. Each slot has an exclude command consisting of the letter flag prefaced with `x`, i.e. `-xo` to exclude orbitals, `-xp` to exlude primaries, etc.
 
 For example, to set up an exclude list for orbitals that prevents rolling the gatling barrage, orbital smoke, and orbital precision strike, you can use the switch
@@ -127,4 +130,38 @@ Secondary: verdict
 Grenade: incendiary
 ```
 
-This is useful if you want to exclude weapons you haven't unlocked, or you just dislike some item so much you don't event want to use it randomly. 
+### Fuzzy Matching 
+The `-x` commands can also do fuzzy string matching using the name of the item to exclude. The command takes an argument of comma-separated strings and will attempt to match them against the list for the slot. 
+
+```
+> helldiver-randomizer -xu="guard dog,mort,shield gen"
+Excluding guard dog mg on arg guard dog
+Excluding guard dog laser on arg guard dog
+Excluding mortar sentry on arg mort
+Excluding shield generator relay on arg shield gen
+Orbital: gas
+Eagle: napalm
+Weapon: mg
+Utility: exosuit
+Primary: crossbow
+Secondary: dagger
+Grenade: smoke
+```
+
+Notice that one argument may match multiple items. 
+
+```
+> helldiver-randomizer -xp="liberator" -p
+Excluding liberator on arg liberator
+Excluding liberator pen on arg liberator
+Excluding liberator concussive on arg liberator
+Primary: scorcher
+```
+
+This can be useful for exluding multiple similar items. This can be worked around by using more specific strings:
+
+```
+helldiver-randomizer -xp="conc" -p
+Excluding liberator concussive on arg conc
+Primary: blitzer
+```
