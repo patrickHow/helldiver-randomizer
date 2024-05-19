@@ -102,7 +102,8 @@ func main() {
 		}
 
 		if *slotInfo != "" {
-			rolled = true // Ok technically we haven't rolled anything, but assume the user just wants info
+			// Ok technically we haven't rolled anything, but assume the user just wants info
+			rolled = true
 			loadout.ParseAndPrintInfo(slotInfo)
 		}
 
