@@ -18,6 +18,12 @@ func NewSlot(options []string) *Slot {
 }
 
 func (slot *Slot) Choose() string {
+
+	// Edge case - have we excluded the whole slot?
+	if len(slot.options) == len(slot.exclude) {
+		return "no valid options"
+	}
+
 	// Pick an entry for the slot
 	choice := slot.options[rand.Intn(len(slot.options))]
 
@@ -29,8 +35,15 @@ func (slot *Slot) Choose() string {
 	return choice
 }
 
-func (slot *Slot) AddToExcludeList(exc string) {
-	slot.exclude[exc] = true
+func (slot *Slot) ParseExcludeFromFlag(exl []int) {
+	for _, exi := range exl {
+		if exi <= len(slot.options) {
+			slot.exclude[slot.options[exi-1]] = true
+			fmt.Println("Excluding:", slot.options[exi-1])
+		} else {
+			fmt.Printf("Arg %d is not valid for this slot\n", exi)
+		}
+	}
 }
 
 func (slot *Slot) PrintWithNumbers() {
