@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 )
 
-// Custom ExcludeFlag type - parse into a slice of ints
-type ExcludeFlag []int
+// Custom ExcludeFlag type - parse into a slice of strings
+type ExcludeFlag []string
 
 // Implement the flag.Value interface
 
@@ -22,11 +21,7 @@ func (f *ExcludeFlag) Set(value string) error {
 	}
 
 	for _, v := range strings.Split(value, ",") {
-		num, err := strconv.Atoi(v)
-		if err != nil {
-			return err
-		}
-		*f = append(*f, num)
+		*f = append(*f, v)
 	}
 	return nil
 }
