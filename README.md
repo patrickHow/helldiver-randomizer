@@ -180,13 +180,12 @@ Profiles are saved to aptly named `.profile` files in the same directory as the 
 A profile allows you to save a default roll using the `-r` command. If not specified, a full loadout will be rolled. Profiles also hold exclude lists, specified using the `-x` series of commands. 
 
 ## Profile Options
-Profiles can be manipulated using the `-pm` command which accepts several options. Each option accepts the first letter or the whole word:
-
-`-pm=c(reate)` to create a profile from the options specified 
-`-pm=d(elete)` to delete a profile
-`-pm=u(se)` to use the profile for a roll - *this is the default argument if none is provided*
-`-pm=e(dit)` to change the options on a profile
-`-pm=i(nfo)` to print info on the profile
+Profiles can be manipulated using the `-pm` command which accepts several options. Each option accepts the first letter or the whole word:  
+`-pm=c(reate)` to create a profile from the options specified  
+`-pm=d(elete)` to delete a profile  
+`-pm=u(se)` to use the profile for a roll - *this is the default argument if none is provided*  
+`-pm=e(dit)` to change the options on a profile  
+`-pm=i(nfo)` to print info on the profile  
 
 Create a profile using the `-r` and `-x` commands:
 
