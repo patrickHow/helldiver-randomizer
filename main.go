@@ -40,6 +40,11 @@ func main() {
 	var xGrenade ExcludeFlag
 	flag.Var(&xGrenade, "xg", "Exclude these grenades")
 
+	// Flags related to profile
+	loadProfile := flag.String("profile", "", "Options for profile: u(se), c(reate), e(dit), i(nfo)")
+	var profSwitch ProfileSwitch
+	flag.Var(&profSwitch, "pm", "Set the usage mode for the specified profile")
+
 	flag.Parse()
 
 	// Set up slot variables
@@ -63,6 +68,7 @@ func main() {
 
 	// If no args, print everything
 	if flag.NFlag() == 0 {
+		fmt.Println("No flags set, choosing entire loadout")
 		loadout.ChooseAll()
 
 	} else {
@@ -72,33 +78,114 @@ func main() {
 		// where we just get exclude lists and we want to roll everything
 		rolled := false
 
-		// Parse exclude lists first
+		// If this flag is true, parsing exclude lists will also update the current profile
+		modifyProfile := false
+
+		// Load profile if one is specified
+		profile := NewProfile()
+
+		if *loadProfile != "" {
+			// Profile not empty, parse options
+			profile.SetName(*loadProfile)
+
+			// Default to "use" option if no switch is provided
+			if profSwitch == "" {
+				profSwitch = "u"
+			}
+
+			switch profSwitch {
+			case "e": // Edit profile - overwrite specified settings based on other flags
+				modifyProfile = true
+				if !profile.ReadFromFile() {
+					fmt.Println("Profile not found - please use create instead of edit for new profiles")
+					return
+				}
+				defer profile.WriteToFile()
+			case "d": // Delete profile (if present)
+				if profile.Delete() {
+					fmt.Println("Profile deleted:", profile.Name)
+				}
+				return
+			case "c": // Create profile based on specified settings
+				modifyProfile = true
+				profile.DefaultRoll = "oeuwpsg" // Default to rolling everything unless overwritten below
+				defer profile.WriteToFile()
+			case "i": // Print info on the profile, but take no action based on it
+				rolled = true
+				if !profile.ReadFromFile() {
+					fmt.Println("Profile not found:", profile.Name)
+					return
+				}
+				profile.Describe()
+				return
+			case "u": // Use this profile for the roll - default option
+				if !profile.ReadFromFile() {
+					fmt.Println("Profile not found:", profile.Name)
+					return
+				}
+				loadout.PopulateExcludeListsFromProfile(profile)
+				if *rollMulti == "" {
+					// If this command wasn't specified, replace it with the default
+					*rollMulti = profile.DefaultRoll
+				}
+			}
+		}
+
+		// Parse exclude lists
 		if len(xOrbital) > 0 {
-			orbitalSlot.ParseExcludeFromFlag(xOrbital)
+			orbitalSlot.ParseExcludeFromSlice(xOrbital)
+
+			if modifyProfile {
+				profile.XOrbital = orbitalSlot.GetExcludeStringList()
+			}
 		}
 
 		if len(xEagle) > 0 {
-			eagleSlot.ParseExcludeFromFlag(xEagle)
+			eagleSlot.ParseExcludeFromSlice(xEagle)
+
+			if modifyProfile {
+				profile.XEagle = eagleSlot.GetExcludeStringList()
+			}
 		}
 
 		if len(xWeapon) > 0 {
-			weaponSlot.ParseExcludeFromFlag(xWeapon)
+			weaponSlot.ParseExcludeFromSlice(xWeapon)
+
+			if modifyProfile {
+				profile.XWeapon = weaponSlot.GetExcludeStringList()
+			}
 		}
 
 		if len(xUtil) > 0 {
-			utilitySlot.ParseExcludeFromFlag(xUtil)
+			utilitySlot.ParseExcludeFromSlice(xUtil)
+
+			if modifyProfile {
+				profile.XUtil = utilitySlot.GetExcludeStringList()
+			}
 		}
 
 		if len(xPrimary) > 0 {
-			primarySlot.ParseExcludeFromFlag(xPrimary)
+			primarySlot.ParseExcludeFromSlice(xPrimary)
+
+			if modifyProfile {
+				profile.XPrimary = primarySlot.GetExcludeStringList()
+			}
 		}
 
 		if len(xSecondary) > 0 {
-			secondarySlot.ParseExcludeFromFlag(xSecondary)
+			secondarySlot.ParseExcludeFromSlice(xSecondary)
+
+			if modifyProfile {
+				profile.XSecondary = secondarySlot.GetExcludeStringList()
+			}
 		}
 
 		if len(xGrenade) > 0 {
-			grenadeSlot.ParseExcludeFromFlag(xGrenade)
+			grenadeSlot.ParseExcludeFromSlice(xGrenade)
+
+			if modifyProfile {
+				profile.XGrenade = grenadeSlot.GetExcludeStringList()
+			}
 		}
 
 		if *slotInfo != "" {
@@ -110,6 +197,10 @@ func main() {
 		if *rollMulti != "" {
 			rolled = true
 			loadout.RollMultipleSlots(rollMulti)
+
+			if modifyProfile {
+				profile.DefaultRoll = *rollMulti
+			}
 		}
 
 		if *orbital {

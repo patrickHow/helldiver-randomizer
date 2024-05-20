@@ -42,7 +42,8 @@ func (slot *Slot) Choose() string {
 // This function takes a list that can be a mix of strings and integers
 // Integers should correspond to an index to exclude
 // Strings will be fuzzy-matched against the list
-func (slot *Slot) ParseExcludeFromFlag(exl []string) {
+func (slot *Slot) ParseExcludeFromSlice(exl []string) {
+
 	for _, ex := range exl {
 		// Try to parse to an int
 		exi, err := strconv.Atoi(ex)
@@ -62,7 +63,6 @@ func (slot *Slot) ParseExcludeFromFlag(exl []string) {
 					slot.exclude[option] = true
 				}
 			}
-
 		}
 	}
 }
@@ -71,4 +71,14 @@ func (slot *Slot) PrintWithNumbers() {
 	for ind, val := range slot.options {
 		fmt.Printf("%d: %s\n", ind+1, val)
 	}
+}
+
+func (slot *Slot) GetExcludeStringList() []string {
+	var s []string
+
+	for str := range slot.exclude {
+		s = append(s, str)
+	}
+
+	return s
 }

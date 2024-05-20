@@ -170,3 +170,113 @@ helldiver-randomizer -xp="conc" -p
 Excluding liberator concussive on arg conc
 Primary: blitzer
 ```
+
+# Profiles
+
+Profiles can be saved and loaded to allow a user to customize runs of the program without having to constantly type command line arguments. Use the `-profile=<name>` command to specify a profile. There is no need to specify the extension, this is handled by the program
+
+Profile names are case-sensitive and will be automatically stripped of spaces.
+
+Profiles are saved to aptly named `.profile` files in the same directory as the executable. 
+
+Profiles have two major components:
+- A default roll, specified using the `-r` command
+- Exclude lists for each slot, using the `-x` family of commands 
+
+## Profile Options
+Profiles can be manipulated using the `-pm` command which accepts several options. Each option accepts the first letter or the whole word:  
+`-pm=c(reate)` to create a profile from the options specified  
+`-pm=d(elete)` to delete a profile  
+`-pm=u(se)` to use the profile for a roll - *this is the default argument if none is provided*  
+`-pm=e(dit)` to change the options on a profile using the `-r` and -`x` commands
+`-pm=i(nfo)` to print info on the profile  
+
+Create a profile using the `-r` and `-x` commands:
+
+```
+> helldiver-randomizer -profile="johnHelldiver" -pm=c -r=psg -xp="liberator,spray" -xg="frag"
+Excluding liberator base on arg liberator
+Excluding liberator penetrator on arg liberator
+Excluding liberator concussive on arg liberator
+Excluding spray and pray on arg spray
+Excluding frag on arg frag
+Primary: defender smg
+Secondary: redeemer
+Grenade: high explosive
+Writing profile: johnHelldiver
+```
+
+Use the profile to roll a loadout:
+
+```
+> helldiver-randomizer -profile="johnHelldiver"
+Loaded profile: johnHelldiver
+Excluding liberator base on arg liberator base
+Excluding liberator penetrator on arg liberator penetrator
+Excluding liberator concussive on arg liberator concussive
+Excluding spray and pray on arg spray and pray
+Excluding frag on arg frag
+Primary: scorcher
+Secondary: verdict
+Grenade: thermite
+```
+
+You can override the `-r` option and supplement the `-x` options without changing the profile:
+```
+> helldiver-randomizer -profile="johnHelldiver" -r="oeuwpsg" -xs="redeemer" -xe="smoke"
+Loaded profile: johnHelldiver
+Excluding liberator base on arg liberator base
+Excluding liberator penetrator on arg liberator penetrator
+Excluding liberator concussive on arg liberator concussive
+Excluding spray and pray on arg spray and pray
+Excluding frag on arg frag
+Excluding smokes on arg smoke
+Excluding redeemer on arg redeemer
+Orbital: gas
+Eagle: cluster
+Utility: shield generator relay
+Weapon: eat
+Primary: pummeler smg
+Secondary: senator
+Grenade: smoke
+```
+
+Edit the profile's exclude options, this overwrites the specified excludes but doesn't modify other ones:
+```
+> helldiver-randomizer -profile="johnHelldiver" -pm=e -xo="laser" -xp="purifier,diligence"
+Loaded profile: johnHelldiver
+Excluding laser on arg laser
+Excluding purifier on arg purifier
+Excluding diligence base on arg diligence
+Excluding diligence counter sniper on arg diligence
+Orbital: smoke
+Eagle: airstrike
+Weapon: mg
+Utility: supply pack
+Primary: liberator base
+Secondary: verdict
+Grenade: stun
+Writing profile: johnHelldiver
+```
+
+See the current state of your profile with the info command:
+```
+> helldiver-randomizer -profile="johnHelldiver" -pm=i
+Loaded profile: johnHelldiver
+Profile: johnHelldiver
+Default roll: psg
+Exclude list:
+Orbital: laser
+Eagle:
+Support Weapon:
+Utility:
+Primary: purifier, diligence base, diligence counter sniper
+Secondary:
+Grenade: frag
+```
+
+Finally, you can delete the profile using the delete option:
+```
+> helldiver-randomizer -profile="johnHelldiver" -pm=d
+Profile deleted: johnHelldiver
+```
