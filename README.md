@@ -173,18 +173,22 @@ Primary: blitzer
 
 # Profiles
 
-Profiles can be saved and loaded to allow a user to customize runs of the program without having to constanly type command line arguments. Use the `-profile=<name>` command to specify a profile. There is no need to specify the extension, this is handled by the program
+Profiles can be saved and loaded to allow a user to customize runs of the program without having to constantly type command line arguments. Use the `-profile=<name>` command to specify a profile. There is no need to specify the extension, this is handled by the program
+
+Profile names are case-sensitive and will be automatically stripped of spaces.
 
 Profiles are saved to aptly named `.profile` files in the same directory as the executable. 
 
-A profile allows you to save a default roll using the `-r` command. If not specified, a full loadout will be rolled. Profiles also hold exclude lists, specified using the `-x` series of commands. 
+Profiles have two major components:
+- A default roll, specified using the `-r` command
+- Exclude lists for each slot, using the `-x` family of commands 
 
 ## Profile Options
 Profiles can be manipulated using the `-pm` command which accepts several options. Each option accepts the first letter or the whole word:  
 `-pm=c(reate)` to create a profile from the options specified  
 `-pm=d(elete)` to delete a profile  
 `-pm=u(se)` to use the profile for a roll - *this is the default argument if none is provided*  
-`-pm=e(dit)` to change the options on a profile  
+`-pm=e(dit)` to change the options on a profile using the `-r` and -`x` commands
 `-pm=i(nfo)` to print info on the profile  
 
 Create a profile using the `-r` and `-x` commands:
@@ -262,9 +266,13 @@ Loaded profile: johnHelldiver
 Profile: johnHelldiver
 Default roll: psg
 Exclude list:
-laser
-purifier, diligence base, diligence counter sniper
-frag
+Orbital: laser
+Eagle:
+Support Weapon:
+Utility:
+Primary: purifier, diligence base, diligence counter sniper
+Secondary:
+Grenade: frag
 ```
 
 Finally, you can delete the profile using the delete option:
