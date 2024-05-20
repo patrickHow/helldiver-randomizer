@@ -85,10 +85,10 @@ func main() {
 		profile := NewProfile()
 
 		if *loadProfile != "" {
-			// Profile not empty,
+			// Profile not empty, parse options
 			profile.SetName(*loadProfile)
 
-			// Default to "use" option
+			// Default to "use" option if no switch is provided
 			if profSwitch == "" {
 				profSwitch = "u"
 			}
@@ -101,9 +101,10 @@ func main() {
 					return
 				}
 				defer profile.WriteToFile()
-			case "d": // Delete profile - remove from the file system
-				profile.Delete()
-				fmt.Println("Profile deleted:", profile.Name)
+			case "d": // Delete profile (if present)
+				if profile.Delete() {
+					fmt.Println("Profile deleted:", profile.Name)
+				}
 				return
 			case "c": // Create profile based on specified settings
 				modifyProfile = true
@@ -111,10 +112,17 @@ func main() {
 				defer profile.WriteToFile()
 			case "i": // Print info on the profile, but take no action based on it
 				rolled = true
-				profile.ReadFromFile()
+				if !profile.ReadFromFile() {
+					fmt.Println("Profile not found:", profile.Name)
+					return
+				}
 				profile.Describe()
+				return
 			case "u": // Use this profile for the roll - default option
-				profile.ReadFromFile()
+				if !profile.ReadFromFile() {
+					fmt.Println("Profile not found:", profile.Name)
+					return
+				}
 				loadout.PopulateExcludeListsFromProfile(profile)
 				if *rollMulti == "" {
 					// If this command wasn't specified, replace it with the default

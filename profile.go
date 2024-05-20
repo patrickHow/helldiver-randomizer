@@ -115,8 +115,15 @@ func NewProfile() *Profile {
 	return &Profile{}
 }
 
-func (prof *Profile) Delete() {
-	_ = os.Remove(prof.Name + ".profile")
+func (prof *Profile) Delete() bool {
+	err := os.Remove(prof.Name + ".profile")
+
+	if err != nil {
+		fmt.Println("Profile could not be deleted:", err)
+		return false
+	} else {
+		return true
+	}
 }
 
 func (prof *Profile) Describe() {
@@ -126,14 +133,20 @@ func (prof *Profile) Describe() {
 
 	var sb strings.Builder
 
+	sb.WriteString("Orbital: ")
 	sb.WriteString(fmt.Sprintf("%s\n", strings.Join(prof.XOrbital, ", ")))
+	sb.WriteString("Eagle: ")
 	sb.WriteString(fmt.Sprintf("%s\n", strings.Join(prof.XEagle, ", ")))
+	sb.WriteString("Support Weapon: ")
 	sb.WriteString(fmt.Sprintf("%s\n", strings.Join(prof.XWeapon, ", ")))
+	sb.WriteString("Utility: ")
 	sb.WriteString(fmt.Sprintf("%s\n", strings.Join(prof.XUtil, ", ")))
+	sb.WriteString("Primary: ")
 	sb.WriteString(fmt.Sprintf("%s\n", strings.Join(prof.XPrimary, ", ")))
+	sb.WriteString("Secondary: ")
 	sb.WriteString(fmt.Sprintf("%s\n", strings.Join(prof.XSecondary, ", ")))
-	sb.WriteString(fmt.Sprintf("%s\n", strings.Join(prof.XGrenade, ", ")))
+	sb.WriteString("Grenade: ")
+	sb.WriteString(strings.Join(prof.XGrenade, ", ")) // No newline, last element
 
 	fmt.Println(sb.String())
-
 }
