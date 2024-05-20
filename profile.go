@@ -6,11 +6,6 @@ import (
 	"strings"
 )
 
-// --profile="name"
-// --create - create a profile with the name and add the specified -r and -exclude options
-// --info - print the options associated with a profile
-// --edit - overwrite the current profile options with those provided (if unspecified, leave alone)
-
 type Profile struct {
 	Name        string
 	DefaultRoll string
@@ -58,9 +53,9 @@ func (prof *Profile) FromString(data string) {
 		value := parts[1]
 
 		// Workaround - splitting an empty string results in a string slice
-		// containing only an empty string - but this has length 1!
+		// containing only an empty string - but this slice has length 1!
 		// Which means it will get passed to the ignore function
-		// And the empty string will fuzzy match everything
+		// And the empty string will fuzzy match everything - ignoring the entire slot
 		if len(value) == 0 {
 			continue
 		}
