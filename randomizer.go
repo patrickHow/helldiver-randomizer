@@ -91,16 +91,19 @@ func (r *Randomizer) InitProfile() (runRequired bool) {
 				fmt.Println("Profile not found - please use create instead of edit for new profiles")
 				runRequired = false
 			}
+			r.saveProfile = true
+
 		case "d": // Delete profile (if present)
 			if r.profile.Delete() {
-				runRequired = false
 				fmt.Println("Profile deleted:", r.profile.Name)
 			}
 			runRequired = false
+
 		case "c": // Create profile based on specified settings
 			r.modifyProfile = true
 			r.saveProfile = true
 			r.profile.DefaultRoll = "oeuwpsg" // Default to rolling everything unless overwritten below
+
 		case "i": // Print info on the profile, but take no action based on it
 			if !r.profile.ReadFromFile() {
 				fmt.Println("Profile not found:", r.profile.Name)
