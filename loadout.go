@@ -12,6 +12,28 @@ type Loadout struct {
 	Grenade   Slot
 }
 
+func NewLoadout() *Loadout {
+	orbitalSlot := NewSlot(OrbitalList)
+	eagleSlot := NewSlot(EagleList)
+	weaponSlot := NewSlot(WeaponList)
+	utilitySlot := NewSlot(UtilityList)
+	primarySlot := NewSlot(PrimaryList)
+	secondarySlot := NewSlot(SecondaryList)
+	grenadeSlot := NewSlot(GrenadeList)
+
+	// Loadout variable to hold everything
+	loadout := Loadout{
+		*orbitalSlot,
+		*eagleSlot,
+		*weaponSlot,
+		*utilitySlot,
+		*primarySlot,
+		*secondarySlot,
+		*grenadeSlot}
+
+	return &loadout
+}
+
 func (l *Loadout) ChooseAll() {
 	fmt.Println("Orbital:", l.Orbital.Choose())
 	fmt.Println("Eagle:", l.Eagle.Choose())
