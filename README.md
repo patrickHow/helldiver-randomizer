@@ -1,6 +1,6 @@
 # Helldiver-Randomizer
 
-A CLI loadout randomizer for Helldivers 2!
+A CLI loadout randomizer for Helldivers 2! This is a "just for fun" project I made for my friends and I.
 
 # Requirements To Build
 Go: https://go.dev/
